@@ -1,5 +1,25 @@
 # README
 
+## Required Elements
+
+Book model found in `app/models/book.rb`
+
+Book migration found in `db/migrate/20171108165836_create_books.rb`
+
+Book model's `book_format_types` method is provided via `has_many ... through`
+
+## Optional Spec
+
+Spec for books model found in `spec/models/book_spec.rb`
+
+bundle exec rspec spec/models/book_spec.rb
+```
+................
+
+Finished in 0.06895 seconds (files took 1.73 seconds to load)
+16 examples, 0 failures
+```
+
 ## Setup
 
 Gemfile:
@@ -35,24 +55,4 @@ bundle exec rails generate rspec:install
 Add ‘validates_numericality_of :rating, allow_nil: false’ to app/models/book_review.rb
 
 Make other edits to `app/model/book.rb` and `spec/models/book_spec.rb`
-
-## Required Elements
-
-Book model found in `app/models/book.rb`
-
-Book migration found in `db/migrate/20171108165836_create_books.rb`
-
-Book model's `book_format_types` method is provided via `has_many ... through`
-
-## Optional Spec
-
-Spec for books model found in `spec/models/book_spec.rb`
-
-bundle exec rspec spec/models/book_spec.rb
-```
-................
-
-Finished in 0.06895 seconds (files took 1.73 seconds to load)
-16 examples, 0 failures
-```
 

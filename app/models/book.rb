@@ -6,6 +6,8 @@ class Book < ApplicationRecord
   has_many :book_formats
   has_many :book_format_types, through: :book_formats
 
+  validates :title, :author, :publisher, presence: true
+
   scope :with_format_id, -> (fmt_id) { joins(:book_format_types).where('book_format_types.id = ?', fmt_id) }
   scope :physical?, -> (tf) { joins(:book_format_types).where('book_format_types.physical = ?', tf) }
 
@@ -15,10 +17,8 @@ class Book < ApplicationRecord
     ratings.size.zero? ? nil : (ratings.sum / ratings.size.to_f).round(1)
   end
 
-  # return author name "last, first", nil if no author
+  # return author name "last, first"
   def author_name
-    return unless author.present?
-
     "#{author.last_name}, #{author.first_name}"
   end
 
@@ -54,11 +54,11 @@ private
 
   # author search
   def self.author_search(query)
-    Book.where("author_id IN (?)", Author.where("last_name LIKE ?", query.downcase).pluck(:id))
+    Book.where("author_id IN (?)", Author.where("last_name LIKE ?", query).pluck(:id))
   end
 
   # publisher search
   def self.publisher_search(query)
-    Book.where("publisher_id in (?)", Publisher.where("name LIKE ?", query.downcase).pluck(:id))
+    Book.where("publisher_id in (?)", Publisher.where("name LIKE ?", query).pluck(:id))
   end
 end

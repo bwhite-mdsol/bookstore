@@ -7,7 +7,7 @@ RSpec.describe Book, type: :model do
   let(:publisher) { Publisher.new(name: 'Foo.Bar') }
 
   describe '#average_rating' do
-    it 'returns average to one decimal place if rating exist' do
+    it 'returns average to one decimal place if ratings exist' do
       allow(subject).to receive_message_chain('book_reviews.pluck') { [3, 3, 5] }
 
       expect(subject.average_rating).to eq 3.7
@@ -25,7 +25,7 @@ RSpec.describe Book, type: :model do
       expect(subject.author_name).to eq 'Bar, Foo'
     end
 
-    it 'return nil if no author is listed' do
+    it 'return nil if no author exists' do
       allow(subject).to receive(:author) { nil }
 
       expect(subject.author_name).to be_nil
@@ -60,14 +60,12 @@ RSpec.describe Book, type: :model do
         expect(arel).to receive_message_chain('all.uniq.sort_by.reverse') { arel }
       end
 
-      after { described_class.search('foo') }
+      after { expect(described_class.search('foo')).to eq arel }
     end
 
     context 'with title_only option' do
       it 'does not search by author' do
         expect(described_class).to_not receive(:author_search) { arel }
-
-        described_class.search('foo', title_only: true)
       end
 
       it 'does not search by title' do
@@ -78,14 +76,14 @@ RSpec.describe Book, type: :model do
         expect(arel).to receive_message_chain('all.uniq.sort_by.reverse') { arel }
       end
 
-      after { described_class.search('foo', title_only: true) }
+      after { expect(described_class.search('foo', title_only: true)).to eq arel }
     end
 
     context 'with book_format_physical option' do
       [true, false].each do |value|
         it 'filters by book format physical type' do
           expect(arel).to receive(:physical?).with(value) { arel }
-          described_class.search('foo', book_format_physical: value)
+          expect(described_class.search('foo', book_format_physical: value)).to eq arel
         end
       end
     end
@@ -94,7 +92,7 @@ RSpec.describe Book, type: :model do
       [5, 6, 3].each do |value|
         it 'filters by book format type id' do
           expect(arel).to receive(:with_format_id).with(value) { arel }
-          described_class.search('foo', book_format_type_id: value)
+          expect(described_class.search('foo', book_format_type_id: value)).to eq arel
         end
       end
     end

@@ -35,8 +35,6 @@ class Book < ApplicationRecord
       scope = scope.or(publisher_search(query))
     end
 
-    #results = scope.all
-
     # format filter
     scope = scope.with_format_id(options[:book_format_type_id]) unless options[:book_format_type_id].nil?
 
@@ -48,14 +46,18 @@ class Book < ApplicationRecord
   end
 
 private
+
+  # title search
   def self.title_search(query)
     Book.where("title LIKE ?", "%#{query}%")
   end
 
+  # author search
   def self.author_search(query)
     Book.where("author_id IN (?)", Author.where("last_name LIKE ?", query.downcase).pluck(:id))
   end
 
+  # publisher search
   def self.publisher_search(query)
     Book.where("publisher_id in (?)", Publisher.where("name LIKE ?", query.downcase).pluck(:id))
   end

@@ -21,14 +21,8 @@ RSpec.describe Book, type: :model do
   end
 
   describe '#author_name' do
-    it 'returns "last, first" if author exists' do
+    it 'returns "last, first"' do
       expect(subject.author_name).to eq 'Bar, Foo'
-    end
-
-    it 'return nil if no author exists' do
-      allow(subject).to receive(:author) { nil }
-
-      expect(subject.author_name).to be_nil
     end
   end
 

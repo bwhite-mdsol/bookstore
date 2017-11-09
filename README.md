@@ -14,10 +14,10 @@ Spec for books model found in `spec/models/book_spec.rb`
 
 bundle exec rspec spec/models/book_spec.rb
 ```
-................
+...............
 
-Finished in 0.06895 seconds (files took 1.73 seconds to load)
-16 examples, 0 failures
+Finished in 0.09998 seconds (files took 1.73 seconds to load)
+15 examples, 0 failures
 ```
 
 ## Setup

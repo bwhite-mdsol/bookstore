@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Book:</strong>
+  <%= @book_format.book_id %>
+</p>
+
+<p>
+  <strong>Book format type:</strong>
+  <%= @book_format.book_format_type_id %>
+</p>
+
+<%= link_to 'Edit', edit_book_format_path(@book_format) %> |
+<%= link_to 'Back', book_formats_path %>

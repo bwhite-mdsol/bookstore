@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Book Formats</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Book</th>
+      <th>Book format type</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @book_formats.each do |book_format| %>
+      <tr>
+        <td><%= book_format.book_id %></td>
+        <td><%= book_format.book_format_type_id %></td>
+        <td><%= link_to 'Show', book_format %></td>
+        <td><%= link_to 'Edit', edit_book_format_path(book_format) %></td>
+        <td><%= link_to 'Destroy', book_format, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Book Format', new_book_format_path %>

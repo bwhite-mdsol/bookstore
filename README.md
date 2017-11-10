@@ -2,9 +2,9 @@
 
 ## Required Elements
 
-Book model found in `app/models/book.rb`
+Book model found in [`app/models/book.rb`](https://github.com/bwhite-mdsol/bookstore/blob/master/app/models/book.rb)
 
-Book migration found in `db/migrate/20171108165836_create_books.rb`
+Book migration found in [`db/migrate/20171108165836_create_books.rb`](https://github.com/bwhite-mdsol/bookstore/blob/master/db/migrate/20171108165836_create_books.rb)
 
 Book model's `book_format_types` method is provided via `has_many ... through`
 

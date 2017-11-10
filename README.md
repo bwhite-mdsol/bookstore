@@ -10,7 +10,7 @@ Book model's `book_format_types` method is provided via `has_many ... through`
 
 ## Optional Spec
 
-Spec for books model found in `spec/models/book_spec.rb`
+Spec for books model found in [`spec/models/book_spec.rb`](https://github.com/bwhite-mdsol/bookstore/blob/master/spec/models/book_spec.rb)
 
 bundle exec rspec spec/models/book_spec.rb
 ```

@@ -9,7 +9,18 @@ class Book < ApplicationRecord
   validates :title, :author, :publisher, presence: true
 
   scope :with_format_id, -> (fmt_id) { joins(:book_format_types).where('book_format_types.id = ?', fmt_id) }
+
   scope :physical?, -> (tf) { joins(:book_format_types).where('book_format_types.physical = ?', tf) }
+
+  scope :with_case_insensitive_partial_title, -> (query) { where("title LIKE ?", "%#{query}%") }
+
+  scope :with_case_insensitive_author_last_name, -> (query) do
+    where("author_id IN (?)", Author.where("last_name LIKE ?", query).pluck(:id))
+  end
+
+  scope :with_case_insensitive_publisher_name, -> (query) do
+    where("publisher_id in (?)", Publisher.where("name LIKE ?", query).pluck(:id))
+  end
 
   # return mean rating to one decimal place, nil if no ratings
   def average_rating
@@ -25,14 +36,14 @@ class Book < ApplicationRecord
   # search query
   def self.search(query, options = { title_only: false, book_format_type_id: nil, book_format_physical: nil })
     # title query
-    scope = title_search(query)
+    scope = with_case_insensitive_partial_title(query)
 
     unless options[:title_only]
       # author query
-      scope = scope.or(author_search(query))
+      scope = scope.or(with_case_insensitive_author_last_name(query))
 
       # publisher query
-      scope = scope.or(publisher_search(query))
+      scope = scope.or(with_case_insensitive_publisher_name(query))
     end
 
     # format filter
@@ -43,22 +54,5 @@ class Book < ApplicationRecord
 
     # compact, sort and order
     scope.all.uniq.sort_by(&:average_rating).reverse
-  end
-
-private
-
-  # title search
-  def self.title_search(query)
-    Book.where("title LIKE ?", "%#{query}%")
-  end
-
-  # author search
-  def self.author_search(query)
-    Book.where("author_id IN (?)", Author.where("last_name LIKE ?", query).pluck(:id))
-  end
-
-  # publisher search
-  def self.publisher_search(query)
-    Book.where("publisher_id in (?)", Publisher.where("name LIKE ?", query).pluck(:id))
   end
 end

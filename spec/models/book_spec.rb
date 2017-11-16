@@ -32,22 +32,22 @@ RSpec.describe Book, type: :model do
     before do
       allow(arel).to receive(:or) { arel }
       allow(arel).to receive_message_chain('all.uniq.sort_by.reverse') { arel }
-      allow(described_class).to receive(:title_search) { arel }
-      allow(described_class).to receive(:author_search) { arel }
-      allow(described_class).to receive(:publisher_search) { arel }
+      allow(described_class).to receive(:with_case_insensitive_partial_title) { arel }
+      allow(described_class).to receive(:with_case_insensitive_author_last_name) { arel }
+      allow(described_class).to receive(:with_case_insensitive_publisher_name) { arel }
     end
 
     context 'no opions' do
       it 'searches by title' do
-        expect(described_class).to receive(:title_search) { arel }
+        expect(described_class).to receive(:with_case_insensitive_partial_title) { arel }
       end
 
       it 'searches by author' do
-        expect(described_class).to receive(:author_search) { arel }
+        expect(described_class).to receive(:with_case_insensitive_author_last_name) { arel }
       end
 
       it 'searches by publisher' do
-        expect(described_class).to receive(:publisher_search) { arel }
+        expect(described_class).to receive(:with_case_insensitive_publisher_name) { arel }
       end
 
       it 'makes sure only unique values are sorted in reverse order' do
@@ -59,11 +59,11 @@ RSpec.describe Book, type: :model do
 
     context 'with title_only option' do
       it 'does not search by author' do
-        expect(described_class).to_not receive(:author_search) { arel }
+        expect(described_class).to_not receive(:with_case_insensitive_author_last_name) { arel }
       end
 
       it 'does not search by title' do
-        expect(described_class).to_not receive(:publisher_search) { arel }
+        expect(described_class).to_not receive(:with_case_insensitive_publisher_name) { arel }
       end
 
       it 'makes sure only unique values are sorted in reverse order' do
